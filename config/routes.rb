@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
   root 'application#index'
-  resources :rooms, only: [:create]
+  resources :rooms, only: [:create, :show], param: :code
 end

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 
   has_one :mobile_user
+  belongs_to :room, optional: true
 
   before_create :set_code
 

@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_131358) do
 
   create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "keys", null: false
+    t.boolean "preparing", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -27,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_131358) do
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "room_id"
     t.string "code", null: false
+    t.boolean "hosting", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

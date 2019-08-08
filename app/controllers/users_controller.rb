@@ -5,6 +5,9 @@ class UsersController < ApplicationController
     render json: { user: user }, status: 201
   end
 
+  def update
+  end
+
   def show
     user = User.find_by!(code: params[:code])
     mobile_user = user.mobile_user

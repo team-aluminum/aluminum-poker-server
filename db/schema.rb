@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_131358) do
     t.string "code", null: false
     t.boolean "hosting", default: false
     t.string "keys"
+    t.string "peer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

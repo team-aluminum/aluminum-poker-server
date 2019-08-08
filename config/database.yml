@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: aluminum-poker-server_production
-  username: aluminum-poker-server
-  password: <%= ENV['ALUMINUM-POKER-SERVER_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5

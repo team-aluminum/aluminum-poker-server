@@ -4,6 +4,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.integer :room_id
       t.string :code, null: false
       t.boolean :hosting, default: false
+      t.string :keys
       t.timestamps
     end
   end

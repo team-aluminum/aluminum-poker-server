@@ -2,13 +2,28 @@ class Room < ApplicationRecord
 
   has_many :users
   has_many :mobile_users, through: :users
+  has_many :room_cards
 
   before_create :generate_keys
 
   enum status: {
     preparing: 0,
     drawing: 1,
+    preflop: 2,
   }
+
+  def preflopen
+    self.status = :preflop
+    sb_user = users.find_by(button: true)
+    bb_user = users.find_by(button: false)
+
+    sb_user.update(betting: 1, chips: sb_user.chips - 1, active: true)
+    bb_user.update(betting: 2, chips: bb_user.chips - 2)
+  end
+
+  def opposite_user(user)
+    users.where.not(id: user.id).first
+  end
 
   private
 

@@ -1,9 +1,17 @@
 class User < ApplicationRecord
 
   has_one :mobile_user
+  has_many :room_cards
   belongs_to :room, optional: true
 
   before_create :set_code
+
+  enum phase: {
+    preflop: 0,
+    flop: 1,
+    turn: 2,
+    river: 3,
+  }
 
   # @param key<String> ex) s7
   def add_key(key)
@@ -24,7 +32,7 @@ class User < ApplicationRecord
       betting: betting,
       button: button,
       active: active,
-      card_count: 0,
+      card_count: room_cards.count,
     }
   end
 

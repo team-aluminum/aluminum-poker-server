@@ -5,6 +5,11 @@ class Room < ApplicationRecord
 
   before_create :generate_keys
 
+  enum status: {
+    preparing: 0,
+    drawing: 1,
+  }
+
   private
 
     def generate_keys

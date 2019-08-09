@@ -17,23 +17,23 @@ class UsersController < ApplicationController
     room = @user.room
     opposite_user = room ? room.users.where.not(id: @user.id).first : nil
 
-    if room.nil? || room.preparing
+    if room.nil? || room.preparing?
       keys = ""
       keys = room ? room.keys : @user.keys
       return render json: {
-        opposite_user: opposite_user,
         keys: keys,
         mobile_user: mobile_user,
-        preparing: true,
+        opposite_user: opposite_user,
+        status: 'preparing',
         hosting: @user.hosting,
       }
     else
       render json: {
-        opposite_user: opposite_user,
         room: room,
-        user: @user,
+        user: @user.serialize,
         mobile_user: mobile_user,
-        preparing: false
+        opposite_user: opposite_user.serialize,
+        status: room.status,
       }
     end
   end

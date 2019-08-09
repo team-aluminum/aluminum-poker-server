@@ -12,5 +12,7 @@ class RoomsController < ApplicationController
     return render json: { message: 'room_not_found' }, status: 400 if room.nil?
     room.users.sample.update(button: true)
     room.users.update(chips: 100)
+    room.drawing!
+    render json: { message: 'ok' }
   end
 end

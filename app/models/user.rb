@@ -16,6 +16,17 @@ class User < ApplicationRecord
     end
   end
 
+  def serialize
+    {
+      code: code,
+      peer_id: peer_id,
+      chips: chips,
+      betting: betting,
+      button: button,
+      active: active,
+    }
+  end
+
   private
 
     def set_code

@@ -61,8 +61,11 @@ class MobileEventsController < ApplicationController
       status: 'active',
       limp_label: limp_label,
       call_amount: call_amount,
-      min_raise_amount: 10,
-      max_raise_amount: 50,
+      min_raise_amount: [@user.betting, opposite_user.betting].max + 2,
+      max_raise_amount: [
+        @user.betting + @user.chips,
+        opposite_user.betting + opposite_user.chips
+      ].min,
     }
   end
 
@@ -86,6 +89,18 @@ class MobileEventsController < ApplicationController
         betting: opposite_user.betting, chips: @user.chips - call_amount,
       )
       opposite_user.update(active: true, last_action: nil)
+    elsif params[:type] == 'raise'
+      diff_amount = params[:amount].to_i - @user.betting
+      @user.update(
+        limp: true, active: false, last_action: "Raise to $#{params[:amount]}",
+        betting: params[:amount], chips: @user.chips - diff_amount,
+      )
+      opposite_user.update(limp: false, active: true, last_action: nil)
+    elsif params[:type] == 'fold'
+      room.result!
+      room.update(pod_chips: @user.betting + opposite_user.betting)
+      @user.update(result: 'fold', result_countdown: 5, betting: 0)
+      opposite_user.update(result: '', result_countdown: 5, betting: 0)
     end
 
     if @user.limp && opposite_user.limp

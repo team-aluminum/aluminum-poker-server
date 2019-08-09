@@ -6,13 +6,6 @@ class User < ApplicationRecord
 
   before_create :set_code
 
-  enum phase: {
-    preflop: 0,
-    flop: 1,
-    turn: 2,
-    river: 3,
-  }
-
   # @param key<String> ex) s7
   def add_key(key)
     if keys.to_s.size == 0
@@ -33,6 +26,8 @@ class User < ApplicationRecord
       button: button,
       active: active,
       card_count: room_cards.count,
+      cards: room_cards,
+      result: result,
     }
   end
 

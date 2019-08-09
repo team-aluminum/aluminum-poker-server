@@ -27,20 +27,40 @@ class UsersController < ApplicationController
         status: 'preparing',
         hosting: @user.hosting,
       }
-    else
-      render json: {
-        room: room,
-        user: @user.serialize,
-        mobile_user: mobile_user,
-        opposite_user: opposite_user&.serialize,
-        status: room.status,
-        cards: {
-          flop: room.flop_cards,
-          turn: room.turn_card,
-          river: room.river_card,
-        },
-      }
     end
+
+    if room.result?
+      u = room.users.find_by(hosting: true)
+      o = room.opposite_user(u)
+      u.update(result_countdown: u.result_countdown - 1)
+      if u.result_countdown <= 0
+        room.room_cards.each { |rc| rc.destroy }
+        if u.result == 'win' || o.result == 'fold'
+          u.update(chips: u.chips + room.pod_chips)
+        elsif u.result == 'lose' || u.result == 'fold'
+          o.update(chips: o.chips + room.pod_chips)
+        else
+          u.update(chips: u.chips + room.pod_chips / 2)
+          o.update(chips: o.chips + room.pod_chips / 2)
+        end
+        room.update(pod_chips: 0, status: :drawing)
+        room.users.each { |_u|
+          _u.update(betting: 0, limp: false, active: false, last_action: nil, button: !_u.button)
+        }
+      end
+    end
+    render json: {
+      room: room,
+      user: @user.serialize,
+      mobile_user: mobile_user,
+      opposite_user: opposite_user&.serialize,
+      status: room.status,
+      cards: {
+        flop: room.flop_cards,
+        turn: room.turn_card,
+        river: room.river_card,
+      },
+    }
   end
 
   private

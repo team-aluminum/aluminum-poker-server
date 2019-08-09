@@ -24,6 +24,7 @@ class User < ApplicationRecord
       betting: betting,
       button: button,
       active: active,
+      card_count: 0,
     }
   end
 

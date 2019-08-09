@@ -34,9 +34,18 @@
 }
 ```
 ### Success Response
+> status: 200
 ```
 {
   "message": "ok"
+}
+```
+### Error Response
+引いたトランプがすでに相手に惹かれていた場合
+> status: 400
+```
+{
+  "error_code": "duplicate"
 }
 ```
 
@@ -49,6 +58,7 @@
 ```
 
 ### Response (カード読み取り状態の時)
+> status: 200
 ```
 {
   "status": "read_card"
@@ -56,6 +66,7 @@
 ```
 
 ### Response (自分のアクションの時)
+> status: 200
 ```
 {
   "status": "active",
@@ -67,6 +78,7 @@
 ```
 
 ### Response (相手のアクションの時)
+> status: 200
 ```
 {
   "status": "waiting"

@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2019_08_09_013707) do
 
   create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "keys", null: false
-    t.integer "pod_chips"
+    t.integer "pod_chips", default: 0
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

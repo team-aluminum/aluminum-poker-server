@@ -34,6 +34,11 @@ class UsersController < ApplicationController
         mobile_user: mobile_user,
         opposite_user: opposite_user&.serialize,
         status: room.status,
+        cards: {
+          flop: room.flop_cards,
+          turn: room.turn_card,
+          river: room.river_card,
+        },
       }
     end
   end

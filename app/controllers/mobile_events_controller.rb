@@ -77,8 +77,19 @@ class MobileEventsController < ApplicationController
     opposite_user = room.opposite_user(@user)
 
     if params[:type] == 'check'
-      @user.update(limp: true, active: false)
-      opposite_user.update(active: true)
+      @user.update(limp: true, active: false, last_action: 'Check')
+      opposite_user.update(active: true, last_action: nil)
+    elsif params[:type] == 'call'
+      call_amount = opposite_user.betting - @user.betting
+      @user.update(
+        limp: true, active: false, last_action: 'Call',
+        betting: opposite_user.betting, chips: @user.chips - call_amount,
+      )
+      opposite_user.update(active: true, last_action: nil)
+    end
+
+    if @user.limp && opposite_user.limp
+      room.next_phase
     end
     render json: { status: 'ok' }
   end

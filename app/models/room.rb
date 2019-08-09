@@ -10,6 +10,10 @@ class Room < ApplicationRecord
     preparing: 0,
     drawing: 1,
     preflop: 2,
+    flop: 3,
+    turn: 4,
+    river: 5,
+    result: 6,
   }
 
   def preflopen
@@ -23,6 +27,27 @@ class Room < ApplicationRecord
 
   def opposite_user(user)
     users.where.not(id: user.id).first
+  end
+
+  def next_phase
+    pod_chips += users.map { |u| u.betting }.inject(:+)
+    users.update(betting: 0, limp: false)
+    if preflop?
+      status = :flop
+      3.times { RoomCard.draw(room) }
+    end
+  end
+
+  def flop_cards
+    room_cards.where(card_type: :flop)
+  end
+
+  def turn_card
+    room_cards.find_by(card_type: :turn)
+  end
+
+  def river_card
+    room_cards.find_by(card_type: :river)
   end
 
   private

@@ -42,7 +42,8 @@ ActiveRecord::Schema.define(version: 2019_08_09_013707) do
     t.boolean "hosting", default: false
     t.string "keys"
     t.string "peer_id"
-    t.integer "chips"
+    t.integer "chips", default: 0
+    t.integer "betting", default: 0
     t.boolean "button", default: false
     t.boolean "active", default: false
     t.datetime "created_at", null: false

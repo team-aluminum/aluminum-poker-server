@@ -10,5 +10,7 @@ class RoomsController < ApplicationController
     user = User.find_by!(code: params[:user_code])
     room = user.room
     return render json: { message: 'room_not_found' }, status: 400 if room.nil?
+    room.users.sample.update(button: true)
+    room.users.update(chips: 100)
   end
 end

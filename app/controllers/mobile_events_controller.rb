@@ -4,15 +4,20 @@ class MobileEventsController < ApplicationController
 
   def mobile_user
     if mobile_user = MobileUser.find_by(user_id: @user.id)
-      return render json: { mobile_user: mobile_user, status: 'already_created' }
+      return render json: { error_code: 'already_created' }, status: 409
     end
     mobile_user = MobileUser.create!(user_id: @user.id)
-    render json: { mobile_user: mobile_user }, status: 201
+    render json: { message: 'ok' }, status: 201
   end
 
   def read_card
     valid = set_card
-    return render json: { message: 'invalid_card' }, status: 400 if !valid
+    if !valid
+      return render json: {
+        error_code: 'invalid_card',
+        message: 'Suit or number is invalid format.',
+      }, status: 400
+    end
 
     if @user.room.nil?
       @user.add_key("#{@suit}#{@number}")
@@ -27,11 +32,12 @@ class MobileEventsController < ApplicationController
     end
 
     def set_card
-      suit = params[:suit].to_s
+      card = params[:card]
+      suit = card[0]
+      number = card[1..2].to_i
       if suit && %w(s h d c).include?(suit[0])
-        @suit = suit[0]
+        @suit = suit
       end
-      number = params[:number].to_i
       if number && 1 <= number && number <= 13
         @number = number
       end

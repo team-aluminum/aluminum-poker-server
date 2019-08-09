@@ -32,7 +32,7 @@ class UsersController < ApplicationController
         room: room,
         user: @user.serialize,
         mobile_user: mobile_user,
-        opposite_user: opposite_user.serialize,
+        opposite_user: opposite_user&.serialize,
         status: room.status,
       }
     end

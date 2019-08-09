@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.boolean :hosting, default: false
       t.string :keys
       t.string :peer_id
+      t.integer :chips
       t.timestamps
     end
   end

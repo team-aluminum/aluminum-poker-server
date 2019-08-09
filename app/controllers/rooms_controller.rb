@@ -5,4 +5,10 @@ class RoomsController < ApplicationController
     user = User.create!(room_id: room.id, hosting: true)
     render json: { room: room, user: user }, status: 201
   end
+
+  def setup
+    user = User.find_by!(code: params[:user_code])
+    room = user.room
+    return render json: { message: 'room_not_found' }, status: 400 if room.nil?
+  end
 end

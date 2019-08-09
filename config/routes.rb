@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   namespace :mobile_events do
     post :mobile_user
     post :read_card
+    get :status
+    post :action
   end
 end

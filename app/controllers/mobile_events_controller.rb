@@ -25,6 +25,14 @@ class MobileEventsController < ApplicationController
     end
   end
 
+  def status
+    render json: { status: 'read_card' }
+  end
+
+  def action
+    render json: { status: 'ok' }
+  end
+
   private
 
     def set_user

@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 2019_08_09_013707) do
     t.string "keys"
     t.string "peer_id"
     t.integer "chips"
+    t.boolean "button", default: false
+    t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

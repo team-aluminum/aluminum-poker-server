@@ -10,10 +10,12 @@ class User < ApplicationRecord
   def add_key(key)
     if keys.to_s.size == 0
       update(keys: key)
+      return false
     elsif keys.to_s.split(?,).size == 1
       self.keys = "#{keys},#{key}"
       self.room_id = Room.find_by(keys: self.keys)&.id
       save
+      return true
     end
   end
 

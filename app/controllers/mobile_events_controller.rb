@@ -20,8 +20,8 @@ class MobileEventsController < ApplicationController
     end
 
     if @user.room.nil?
-      @user.add_key("#{@suit}#{@number}")
-      return render json: { message: 'ok' }
+      result = @user.add_key("#{@suit}#{@number}")
+      return render json: { message: 'ok', entered: result }
     end
     room = @user.room
 

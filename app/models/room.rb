@@ -48,14 +48,14 @@ class Room < ApplicationRecord
       u1_hand = best_hand(u1)
       u2_hand = best_hand(u2)
       if u1_hand[0] < u2_hand[0]
-        u1.update(result: 'win', result_countdown: 5)
-        u2.update(result: 'lose', result_countdown: 5)
+        u1.update(result: 'win', result_countdown: 10)
+        u2.update(result: 'lose', result_countdown: 10)
       elsif u1_hand[0] > u2_hand[0]
-        u1.update(result: 'lose', result_countdown: 5)
-        u2.update(result: 'win', result_countdown: 5)
+        u1.update(result: 'lose', result_countdown: 10)
+        u2.update(result: 'win', result_countdown: 10)
       else
-        u1.update(result: 'draw', result_countdown: 5)
-        u2.update(result: 'draw', result_countdown: 5)
+        u1.update(result: 'draw', result_countdown: 10)
+        u2.update(result: 'draw', result_countdown: 10)
       end
     end
   end

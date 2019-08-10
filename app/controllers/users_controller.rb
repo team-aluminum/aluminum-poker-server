@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       }
     end
 
-    if room.result?
+    if room.result? && @user.hosting
       u = room.users.find_by(hosting: true)
       o = room.opposite_user(u)
       u.update(result_countdown: u.result_countdown - 1)

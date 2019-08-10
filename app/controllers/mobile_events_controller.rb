@@ -99,8 +99,8 @@ class MobileEventsController < ApplicationController
     elsif params[:type] == 'fold'
       room.result!
       room.update(pod_chips: @user.betting + opposite_user.betting)
-      @user.update(result: 'fold', result_countdown: 5, betting: 0)
-      opposite_user.update(result: '', result_countdown: 5, betting: 0)
+      @user.update(result: 'fold', result_countdown: 10, betting: 0)
+      opposite_user.update(result: '', result_countdown: 10, betting: 0)
     end
 
     if @user.limp && opposite_user.limp
